@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pho Ngon — Ресторан вьетнамской кухни</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #10b981;
+      --primary-dark: #059669;
+      --primary-light: #d1fae5;
+      --accent: #ef4444;
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --radius: 16px;
+      --shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      padding-bottom: 100px;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(12px);
+      z-index: 100;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .header-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+      color: var(--text);
+    }
+
+    .logo-badge {
+      background: var(--primary);
+      color: white;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 20px;
+    }
+
+    .logo-text h1 {
+      font-size: 20px;
+      font-weight: 800;
+      line-height: 1.2;
+    }
+
+    .logo-text p {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .search-bar {
+      flex: 1;
+      max-width: 400px;
+      position: relative;
+    }
+
+    .search-bar input {
+      width: 100%;
+      padding: 10px 16px 10px 40px;
+      border-radius: 99px;
+      border: 1px solid var(--border);
+      background: #f1f5f9;
+      font-size: 14px;
+      outline: none;
+      transition: all 0.2s;
+    }
+
+    .search-bar input:focus {
+      background: #fff;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+    }
+
+    .cart-btn {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 99px;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s;
+    }
+
+    .cart-btn:hover {
+      background: var(--primary-dark);
+      transform: translateY(-1px);
+    }
+
+    .cart-count {
+      background: rgba(255, 255, 255, 0.25);
+      padding: 2px 8px;
+      border-radius: 12px;
+      font-size: 13px;
+    }
+
+    .categories-wrapper {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      overflow-x: auto;
+      white-space: nowrap;
+      scrollbar-width: none;
+    }
+
+    .categories-wrapper::-webkit-scrollbar {
+      display: none;
+    }
+
+    .categories {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 12px 24px;
+      display: flex;
+      gap: 8px;
+    }
+
+    .cat-btn {
+      background: #f1f5f9;
+      border: none;
+      padding: 8px 18px;
+      border-radius: 99px;
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .cat-btn.active, .cat-btn:hover {
+      background: var(--primary);
+      color: white;
+    }
+
+    .delivery-banner {
+      background: var(--primary-light);
+      border-bottom: 1px solid rgba(16, 185, 129, 0.2);
+      padding: 12px 24px;
+    }
+
+    .delivery-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      font-size: 14px;
+      color: #065f46;
+      font-weight: 600;
+    }
+
+    .progress-bar-bg {
+      flex: 1;
+      max-width: 300px;
+      height: 8px;
+      background: rgba(16, 185, 129, 0.2);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background: var(--primary);
+      width: 0%;
+      transition: width 0.3s;
+    }
+
+    main {
+      max-width: 1200px;
+      margin: 32px auto;
+      padding: 0 24px;
+    }
+
+    .section-title {
+      font-size: 24px;
+      font-weight: 800;
+      margin-bottom: 20px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 24px;
+    }
+
+    .card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.2s;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+    }
+
+    .card-img-wrapper {
+      position: relative;
+      width: 100%;
+      height: 180px;
+      background: #f1f5f9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .card-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .placeholder-img {
+      font-size: 48px;
+    }
+
+    .rating-badge {
+      position: absolute;
+      bottom: 8px;
+      left: 8px;
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(4px);
+      padding: 4px 8px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .card-body {
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .card-title {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .card-weight {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 16px;
+    }
+
+    .card-footer {
+      margin-top: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .card-price {
+      font-size: 18px;
+      font-weight: 800;
+    }
+
+    .add-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #f1f5f9;
+      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .add-btn:hover {
+      background: var(--primary);
+      color: white;
+    }
+
+    /* Modal Cart */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.5);
+      backdrop-filter: blur(4px);
+      z-index: 200;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .cart-modal {
+      background: var(--surface);
+      width: 100%;
+      max-width: 480px;
+      border-radius: 24px;
+      padding: 24px;
+      max-height: 85vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .cart-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .cart-items {
+      overflow-y: auto;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .cart-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .item-controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .qty-btn {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: #fff;
+      cursor: pointer;
+    }
+
+    .checkout-btn {
+      background: var(--primary);
+      color: white;
+      border: none;
+      width: 100%;
+      padding: 14px;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    @media (max-width: 640px) {
+      .header-container {
+        flex-wrap: wrap;
+      }
+      .search-bar {
+        order: 3;
+        max-width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="header-container">
+      <a href="#" class="logo">
+        <div class="logo-badge">Pho</div>
+        <div class="logo-text">
+          <h1>Pho Ngon</h1>
+          <p>Вьетнамская кухня</p>
+        </div>
+      </a>
+
+      <div class="search-bar">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="searchInput" placeholder="Поиск блюд..." oninput="renderMenu()">
+      </div>
+
+      <button class="cart-btn" onclick="toggleCart(true)">
+        <span>🛒</span>
+        <span>Корзина</span>
+        <span class="cart-count" id="cartCount">0</span>
+      </button>
+    </div>
+
+    <div class="categories-wrapper">
+      <div class="categories" id="categoryList"></div>
+    </div>
+
+    <div class="delivery-banner">
+      <div class="delivery-content">
+        <span id="deliveryText">Бесплатная доставка от 600 ₽</span>
+        <div class="progress-bar-bg">
+          <div class="progress-bar-fill" id="deliveryProgress"></div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <h2 class="section-title" id="sectionTitle">Выбор пользователей</h2>
+    <div class="grid" id="menuGrid"></div>
+  </main>
+
+  <div class="modal-overlay" id="cartModal">
+    <div class="cart-modal">
+      <div class="cart-header">
+        <h2>Ваш заказ</h2>
+        <button class="add-btn" onclick="toggleCart(false)">✕</button>
+      </div>
+
+      <div class="cart-items" id="cartItems"></div>
+
+      <div style="margin-top: auto; border-top: 1px solid var(--border); padding-top: 16px;">
+        <div style="display: flex; justify-content: space-between; font-weight: 800; font-size: 18px; margin-bottom: 16px;">
+          <span>Итого:</span>
+          <span id="cartTotal">0 ₽</span>
+        </div>
+        <button class="checkout-btn" onclick="checkout()">Оформить заказ</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const menuData = [
+      // Супы
+      { id: 1, title: 'Фо-бо', category: 'Супы', price: 749, weight: '1 kg', rating: '90% (40)', emoji: '🍜' },
+      { id: 2, title: 'Ми хай сан Том ям', category: 'Супы', price: 819, weight: '700 g', rating: '81% (31)', emoji: '🍲' },
+      { id: 3, title: 'Фо тай лан', category: 'Супы', price: 789, weight: '1 kg', rating: '86% (21)', emoji: '🥣' },
+      { id: 4, title: 'Фо шот ванг', category: 'Супы', price: 779, weight: '1 kg', rating: '86% (21)', emoji: '🍲' },
+      { id: 5, title: 'Фо га', category: 'Супы', price: 749, weight: '1 kg', rating: '100% (8)', emoji: '🍜' },
+
+      // Закуски
+      { id: 6, title: 'Бань бао', category: 'Закуски', price: 399, weight: '150 g', rating: '83% (24)', emoji: '🥟' },
+      { id: 7, title: 'Нэм', category: 'Закуски', price: 499, weight: '200 g', rating: '86% (29)', emoji: '🌯' },
+      { id: 8, title: 'Битые огурцы', category: 'Закуски', price: 449, weight: '175 g', rating: '100% (5)', emoji: '🥒' },
+      { id: 9, title: 'Ном соай том', category: 'Закуски', price: 549, weight: '180 g', rating: '83% (6)', emoji: '🥗' },
+
+      // Вок
+      { id: 10, title: 'Фо сао', category: 'Вок', price: 619, weight: '450 g', rating: '88% (17)', emoji: '🍝' },
+      { id: 11, title: 'Фо сао вит', category: 'Вок', price: 819, weight: '450 g', rating: '100% (3)', emoji: '🍝' },
+      { id: 12, title: 'Бунь Бо Нам Бо', category: 'Вок', price: 819, weight: '480 g', rating: 'Fried', emoji: '🥗' },
+      { id: 13, title: 'Миен сао', category: 'Вок', price: 619, weight: '450 g', rating: '90% (10)', emoji: '🍜' },
+
+      // Комбо-набор
+      { id: 14, title: 'Ком ранг', category: 'Комбо-набор', price: 699, weight: '550 g', rating: '87% (23)', emoji: '🍛' },
+      { id: 15, title: 'Ком бо', category: 'Комбо-набор', price: 759, weight: '650 g', rating: '100%', emoji: '🍱' },
+      { id: 16, title: 'Ком том', category: 'Комбо-набор', price: 759, weight: '600 g', rating: '100% (8)', emoji: '🍤' },
+      { id: 17, title: 'Ком Га', category: 'Комбо-набор', price: 699, weight: '650 g', rating: '100% (4)', emoji: '🍗' },
+      { id: 18, title: 'Ком дау фу', category: 'Комбо-набор', price: 599, weight: '650 g', rating: '100%', emoji: '🥗' },
+      { id: 19, title: 'Ком вит', category: 'Комбо-набор', price: 819, weight: '550 g', rating: '100%', emoji: '🦆' },
+
+      // Соусы
+      { id: 20, title: 'Зам Той', category: 'Соусы', price: 50, weight: '30 ml', rating: '', emoji: '🧄' },
+      { id: 21, title: 'Острый', category: 'Соусы', price: 50, weight: '30 ml', rating: '', emoji: '🌶️' },
+      { id: 22, title: 'Соевый', category: 'Соусы', price: 50, weight: '30 ml', rating: '', emoji: '🏺' },
+      { id: 23, title: 'Кисло-сладкий', category: 'Соусы', price: 50, weight: '30 ml', rating: '', emoji: '🍯' },
+
+      // Вьетнамские товары
+      { id: 24, title: 'Вьетнамское желе', category: 'Вьетнамские товары', price: 400, weight: '300 g', rating: '', emoji: '🍬' },
+      { id: 25, title: 'Моти', category: 'Вьетнамские товары', price: 400, weight: '200 g', rating: '', emoji: '🍡' },
+
+      // Напитки
+      { id: 26, title: 'Манго шейк', category: 'Напитки', price: 490, weight: '400 ml', rating: '100% (6)', emoji: '🥭' },
+      { id: 27, title: 'Вьетнамский фруктовый напиток Vinut', category: 'Напитки', price: 300, weight: '330 ml', rating: '100% (6)', emoji: '🥤' },
+      { id: 28, title: 'Маракуйя шейк', category: 'Напитки', price: 490, weight: '400 ml', rating: '', emoji: '🍹' },
+      { id: 29, title: 'Лайм шейк', category: 'Напитки', price: 350, weight: '400 ml', rating: '', emoji: '🍋' }
+    ];
+
+    const categories = ['Все', 'Супы', 'Закуски', 'Вок', 'Комбо-набор', 'Соусы', 'Вьетнамские товары', 'Напитки'];
+    let selectedCategory = 'Все';
+    let cart = {};
+
+    function init() {
+      renderCategories();
+      renderMenu();
+    }
+
+    function renderCategories() {
+      const container = document.getElementById('categoryList');
+      container.innerHTML = categories.map(cat => `
+        <button class="cat-btn ${cat === selectedCategory ? 'active' : ''}" onclick="selectCategory('${cat}')">
+          ${cat}
+        </button>
+      `).join('');
+    }
+
+    function selectCategory(cat) {
+      selectedCategory = cat;
+      document.getElementById('sectionTitle').innerText = cat === 'Все' ? 'Полное меню' : cat;
+      renderCategories();
+      renderMenu();
+    }
+
+    function renderMenu() {
+      const grid = document.getElementById('menuGrid');
+      const search = document.getElementById('searchInput').value.toLowerCase();
+
+      const filtered = menuData.filter(item => {
+        const matchesCat = selectedCategory === 'Все' || item.category === selectedCategory;
+        const matchesSearch = item.title.toLowerCase().includes(search);
+        return matchesCat && matchesSearch;
+      });
+
+      if(filtered.length === 0) {
+        grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 40px;">Блюда не найдены</p>';
+        return;
+      }
+
+      grid.innerHTML = filtered.map(item => `
+        <div class="card">
+          <div class="card-img-wrapper">
+            <span class="placeholder-img">${item.emoji}</span>
+            ${item.rating ? `<div class="rating-badge">👍 ${item.rating}</div>` : ''}
+          </div>
+          <div class="card-body">
+            <div class="card-title">${item.title}</div>
+            <div class="card-weight">${item.weight}</div>
+            <div class="card-footer">
+              <div class="card-price">${item.price} ₽</div>
+              <button class="add-btn" onclick="addToCart(${item.id})">+</button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function addToCart(id) {
+      cart[id] = (cart[id] || 0) + 1;
+      updateCartUI();
+    }
+
+    function updateCartQty(id, change) {
+      if(cart[id]) {
+        cart[id] += change;
+        if(cart[id] <= 0) delete cart[id];
+      }
+      updateCartUI();
+    }
+
+    function updateCartUI() {
+      const totalCount = Object.values(cart).reduce((a, b) => a + b, 0);
+      document.getElementById('cartCount').innerText = totalCount;
+
+      let totalPrice = 0;
+      const itemsContainer = document.getElementById('cartItems');
+
+      const itemsHtml = Object.keys(cart).map(id => {
+        const item = menuData.find(m => m.id == id);
+        const itemTotal = item.price * cart[id];
+        totalPrice += itemTotal;
+
+        return `
+          <div class="cart-item">
+            <div>
+              <div style="font-weight: 700;">${item.title}</div>
+              <div style="font-size: 13px; color: var(--text-muted);">${item.price} ₽</div>
+            </div>
+            <div class="item-controls">
+              <button class="qty-btn" onclick="updateCartQty(${id}, -1)">-</button>
+              <span style="font-weight: 600;">${cart[id]}</span>
+              <button class="qty-btn" onclick="updateCartQty(${id}, 1)">+</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      itemsContainer.innerHTML = itemsHtml || '<p style="text-align: center; color: var(--text-muted); padding: 20px;">Корзина пуста</p>';
+      document.getElementById('cartTotal').innerText = `${totalPrice} ₽`;
+
+      // Free delivery logic (600 ₽)
+      const freeDeliveryMin = 600;
+      const progress = Math.min(100, (totalPrice / freeDeliveryMin) * 100);
+      document.getElementById('deliveryProgress').style.width = `${progress}%`;
+
+      const deliveryText = document.getElementById('deliveryText');
+      if (totalPrice >= freeDeliveryMin) {
+        deliveryText.innerText = '🎉 У вас бесплатная доставка!';
+      } else {
+        const remaining = freeDeliveryMin - totalPrice;
+        deliveryText.innerText = `Добавьте товаров на ${remaining} ₽ для бесплатной доставки`;
+      }
+    }
+
+    function toggleCart(show) {
+      document.getElementById('cartModal').classList.toggle('active', show);
+    }
+
+    function checkout() {
+      if(Object.keys(cart).length === 0) {
+        alert('Корзина пуста');
+        return;
+      }
+      alert('Заказ успешно оформлен! Спасибо, что выбрали Pho Ngon!');
+      cart = {};
+      updateCartUI();
+      toggleCart(false);
+    }
+
+    init();
+  </script>
+</body>
+</html>
